@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matheus — Vehicle Dynamics &amp; Data Acquisition</title>
+<style>
+  :root{
+    --bg:#12151b;
+    --panel:#181c23;
+    --border:#2a303a;
+    --text:#e7e4dd;
+    --text-dim:#9aa0ab;
+    --amber:#e8a33d;
+    --cyan:#5fb8d9;
+    --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber);outline-offset:3px;}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 0;border-bottom:1px solid var(--border);
+  }
+  .top .wrap{display:flex;justify-content:space-between;align-items:center;width:100%;}
+  .mark{font-weight:600;font-size:1.05rem;letter-spacing:0.01em;}
+  .mark span{color:var(--amber);}
+  nav a{color:var(--text-dim);margin-left:24px;font-size:0.95rem;}
+  nav a:hover{color:var(--text);text-decoration:none;}
+
+  .hero{padding:72px 0 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;}
+  .hero h1{
+    font-size:2.5rem;line-height:1.15;font-weight:600;margin:0 0 20px;
+    max-width:15ch;
+  }
+  .hero p{color:var(--text-dim);font-size:1.05rem;max-width:46ch;margin:0 0 28px;}
+  .hero .role{
+    font-family:var(--mono);font-size:0.85rem;color:var(--cyan);
+    margin-bottom:14px;display:block;
+  }
+  .trace{width:100%;height:auto;}
+  .trace path.line{fill:none;stroke:var(--cyan);stroke-width:2;}
+  .trace path.line.dim{stroke:var(--amber);opacity:0.55;}
+  .trace .grid{stroke:var(--border);stroke-width:1;}
+  .trace text{fill:var(--text-dim);font-family:var(--mono);font-size:9px;}
+
+  section{padding:48px 0;border-top:1px solid var(--border);}
+  h2{font-size:1.4rem;font-weight:600;margin:0 0 8px;}
+  .lede{color:var(--text-dim);max-width:60ch;margin:0 0 36px;}
+
+  .project{
+    display:grid;grid-template-columns:180px 1fr;gap:24px;
+    padding:22px 0;border-top:1px solid var(--border);
+  }
+  .project:first-of-type{border-top:none;}
+  .project .file{
+    font-family:var(--mono);font-size:0.82rem;color:var(--amber);
+    word-break:break-word;padding-top:2px;
+  }
+  .project h3{margin:0 0 8px;font-size:1.05rem;font-weight:600;}
+  .project p{margin:0;color:var(--text-dim);font-size:0.95rem;max-width:60ch;}
+  .project .tags{margin-top:10px;font-family:var(--mono);font-size:0.78rem;color:var(--text-dim);}
+  .project .tags span{margin-right:14px;}
+
+  .post{padding:20px 0;border-top:1px solid var(--border);}
+  .post:first-of-type{border-top:none;}
+  .post .date{font-family:var(--mono);font-size:0.78rem;color:var(--text-dim);display:block;margin-bottom:6px;}
+  .post h3{margin:0 0 6px;font-size:1.05rem;font-weight:600;}
+  .post p{margin:0;color:var(--text-dim);font-size:0.95rem;max-width:60ch;}
+
+  .about p{max-width:62ch;color:var(--text-dim);}
+  .about strong{color:var(--text);font-weight:600;}
+
+  .contact-row{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:8px;}
+  .contact-row a{font-family:var(--mono);font-size:0.9rem;}
+
+  footer{padding:32px 0 48px;color:var(--text-dim);font-size:0.85rem;}
+
+  @media (max-width:720px){
+    .hero{grid-template-columns:1fr;padding-top:48px;}
+    .hero h1{font-size:2rem;max-width:none;}
+    .project{grid-template-columns:1fr;gap:6px;}
+    nav a{margin-left:16px;font-size:0.88rem;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="mark">Matheus<span>.</span></div>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#notes">Notes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero" style="border:none;padding-top:64px;">
+    <div>
+      <span class="role">Vehicle dynamics &amp; data acquisition — FSAE</span>
+      <h1>Building the tools that make a race car's data make sense.</h1>
+      <p>I work on the J13/J14 Formula SAE program, mostly at the intersection of firmware, signal processing, and vehicle dynamics — turning raw sensor logs into something the team can actually act on.</p>
+    </div>
+    <svg class="trace" viewBox="0 0 320 180" role="img" aria-label="Sample telemetry trace of speed over a lap">
+      <line class="grid" x1="0" y1="40" x2="320" y2="40"/>
+      <line class="grid" x1="0" y1="90" x2="320" y2="90"/>
+      <line class="grid" x1="0" y1="140" x2="320" y2="140"/>
+      <path class="line" d="M0,120 L20,110 L40,60 L60,50 L90,52 L110,30 L140,34 L160,70 L190,100 L210,95 L240,45 L260,40 L290,65 L320,58"/>
+      <path class="line dim" d="M0,150 L30,148 L60,120 L90,118 L120,140 L150,142 L180,110 L210,108 L240,130 L270,132 L300,100 L320,98"/>
+      <text x="4" y="14">SPEED</text>
+      <text x="4" y="170">RPM</text>
+    </svg>
+  </section>
+</div>
+
+<div class="wrap">
+  <section class="about">
+    <h2>About</h2>
+    <p><strong>Matheus</strong> — Formula SAE team member focused on vehicle dynamics and data acquisition. Splits time between MATLAB analysis tooling, embedded firmware, and simulation, mostly in service of getting cleaner data out of the car and turning it into decisions the engineering team can use.</p>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="projects">
+    <h2>Projects</h2>
+    <p class="lede">A working set of the tools currently in use on the team.</p>
+
+    <div class="project">
+      <div class="file">fsae_lap_timer_new.m</div>
+      <div>
+        <h3>Real-time lap timing &amp; setup comparison</h3>
+        <p>A MATLAB GUI application for live lap timing, run comparison, and pilot/setup management, spanning several major versions. Pairs with a companion ESP32 + HC-SR04 beacon running interrupt-driven timing with temperature-compensated speed of sound. Generates HTML reports with lap charts, statistics, and setup comparisons.</p>
+        <div class="tags"><span>MATLAB</span><span>ESP32 / C firmware</span><span>Live Session / Compare Files / Pilots &amp; Setup</span></div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="file">PTECU_1.csv</div>
+      <div>
+        <h3>CVT powertrain visualization tool</h3>
+        <p>A multi-tab, dark-mode MATLAB tool for logged ECU data from the car's CVT powertrain. Time-series plots, RPM-vs-speed scatter with CVT ratio overlays, histograms, and cumulative distance/ratio tracking — built with careful handling of sensor faults and conversion constants.</p>
+        <div class="tags"><span>MATLAB</span><span>ECU logs</span><span>CVT ratio analysis</span></div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="file">estercamentoEdemais.m</div>
+      <div>
+        <h3>Steering &amp; chassis signal analysis</h3>
+        <p>A multi-tab analysis script for steering angle, pedal, roll, and lateral acceleration signals, including cumulative integral and derivative views of steering input, with ongoing work on plot styling to separate raw data from smoothed overlays.</p>
+        <div class="tags"><span>MATLAB</span><span>Signal processing</span><span>Vehicle dynamics</span></div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="file">J13 — brake test analysis</div>
+      <div>
+        <h3>Brake test data pipeline</h3>
+        <p>A MATLAB pipeline that applies a Butterworth bandpass filter to IMU/CAN logger data and integrates acceleration to derive speed and distance, with gravity/lean compensation for a leaning vehicle and sign-convention checks throughout.</p>
+        <div class="tags"><span>MATLAB</span><span>IMU / CAN</span><span>Filtering &amp; integration</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="notes">
+    <h2>Field notes</h2>
+    <p class="lede">Shorter write-ups on problems worth remembering. Replace these with your own posts.</p>
+
+    <div class="post">
+      <span class="date">Draft</span>
+      <h3>Compensating for lean angle in a leaning-vehicle brake test</h3>
+      <p>Why raw IMU acceleration alone lies to you during a brake test, and what the gravity-compensation step is actually correcting for.</p>
+    </div>
+    <div class="post">
+      <span class="date">Draft</span>
+      <h3>Non-uniform sampling: the quiet bug in every logger</h3>
+      <p>Notes on catching and correcting for irregular sample timing before it corrupts a derived speed or distance signal.</p>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="contact">
+    <h2>Get in touch</h2>
+    <p class="lede">Open to conversations about FSAE, vehicle dynamics, or data tooling.</p>
+    <div class="contact-row">
+      <a href="mailto:your.email@example.com">your.email@example.com</a>
+      <a href="https://github.com/yourusername">github.com/yourusername</a>
+      <a href="https://linkedin.com/in/yourusername">linkedin.com/in/yourusername</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Matheus. Built with plain HTML — hosted on GitHub Pages.</div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
